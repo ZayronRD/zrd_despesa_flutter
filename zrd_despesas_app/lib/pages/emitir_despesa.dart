@@ -17,14 +17,21 @@ class EmitirDespesa extends StatefulWidget {
 class _EmitirDespesaState extends State<EmitirDespesa> {
   final descricao = TextEditingController();
   final valor = TextEditingController();
+  ZROpcoes? tipoSelecionado;
 
   final despesa = ModelDespesa(
     dtemissao: null,
     descricao: '',
-    idCategoria: null,
+    tipo: null,
     valor: 0,
   );
 
+  final List<ZROpcoes> opcoes = [
+    ZROpcoes(id: '1', descricao: 'ALIMENTAÇÃO'),
+    ZROpcoes(id: '2', descricao: 'TRANSPORTE'),
+    ZROpcoes(id: '3', descricao: 'LAZER'),
+    ZROpcoes(id: '4', descricao: 'CONTAS'),
+  ];
   @override
   void dispose() {
     descricao.dispose();
@@ -49,71 +56,72 @@ class _EmitirDespesaState extends State<EmitirDespesa> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Form(
-        child: Column(
-          children: [
-            ZrShowDatePicker(
-              label: 'DATA',
-              value: despesa.dtemissao,
-              onChanged: (novadata) {
-                setState(() {
-                  despesa.dtemissao = novadata;
-                });
-              },
-            ),
-            ZrTextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'informe a descricao';
-                }
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          child: Column(
+            children: [
+              ZrShowDatePicker(
+                label: "DATA",
+                value: despesa.dtemissao,
+                onChanged: (novadata) {
+                  setState(() {
+                    despesa.dtemissao = novadata;
+                  });
+                },
+              ),
+              ZrTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "informe a descricao";
+                  }
+                  return null;
+                },
+                controller: descricao,
+                label: "DESCRIÇÃO",
+              ),
+              ZrEspaco(),
 
-                return null;
-              },
-              controller: descricao,
-              label: 'DESCRICAO',
-            ),
-            const ZrEspaco(),
-            ZrInputNumber(
-              label: 'VALOR',
-              controller: valor,
-              validator: (value) {
-                final valorNumero = parseMoeda(value ?? '');
+              ZrModalOpcoes(
+                label: 'TIPO',
+                value: tipoSelecionado?.descricao,
+                opcoes: opcoes,
+                onChanged: (novoValor) {
+                  setState(() {
+                    tipoSelecionado = novoValor;
+                    despesa.tipo = novoValor.id;
+                  });
+                },
+              ),
 
-                if (valorNumero <= 0) {
-                  return 'valor precisa ser informado';
-                }
+              ZrEspaco(),
 
-                return null;
-              },
-            ),
-            const ZrEspaco(),
-            Text(despesa.dadosEmString()),
-            const ZrEspaco(),
-            ZrModalOpcoes(
-              label: 'Tipo de despesa',
-              value: despesa.idCategoria,
-              opcoes: const ['Alimentacao', 'Transporte', 'Hospedagem'],
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'selecione o tipo de despesa';
-                }
+              ZrInputNumber(
+                label: "VALOR",
+                controller: valor,
+                validator: (value) {
+                  final valorNumero = parseMoeda(value ?? '');
 
-                return null;
-              },
-              onChanged: (novoValor) {
-                setState(() {
-                  despesa.idCategoria = novoValor;
-                });
-              },
-            ),
-            const ZrEspaco(),
-            TextButton(
-              onPressed: () => setState(() {}),
-              child: const Text('Incluir Despesa'),
-            ),
-          ],
+                  if (valorNumero <= 0) {
+                    return "valor precisa ser informado";
+                  }
+
+                  return null;
+                },
+              ),
+              ZrEspaco(),
+              TextButton(
+                onPressed: () => setState(() {}),
+                child: Text("Incluir Despesa"),
+              ),
+              ZrEspaco(),
+
+              Text(despesa.dadosEmString()),
+
+              ZrEspaco(),
+            ],
+          ),
         ),
       ),
     );

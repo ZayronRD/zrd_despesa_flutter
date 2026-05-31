@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class ZrModalOpcoes extends StatelessWidget {
   final String label;
   final String? value;
-  final List<String> opcoes;
-  final ValueChanged<String> onChanged;
+  final List<ZROpcoes> opcoes;
+  final ValueChanged<ZROpcoes> onChanged;
   final String? Function(String?)? validator;
 
   const ZrModalOpcoes({
@@ -27,14 +27,18 @@ class ZrModalOpcoes extends StatelessWidget {
         suffixIcon: const Icon(Icons.keyboard_arrow_down),
       ),
       onTap: () async {
-        final selecionado = await showModalBottomSheet<String>(
+        final selecionado = await showModalBottomSheet<ZROpcoes>(
           isScrollControlled: true,
+          // useSafeArea: true,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadiusGeometry.zero,
+          ),
           context: context,
           builder: (context) {
             return ListView(
               children: opcoes.map((opcao) {
                 return ListTile(
-                  title: Text(opcao),
+                  title: Text(opcao.descricao),
                   onTap: () {
                     Navigator.pop(context, opcao);
                   },
@@ -50,4 +54,11 @@ class ZrModalOpcoes extends StatelessWidget {
       },
     );
   }
+}
+
+class ZROpcoes {
+  final String id;
+  final String descricao;
+
+  ZROpcoes({required this.id, required this.descricao});
 }
