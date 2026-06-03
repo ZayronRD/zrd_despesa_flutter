@@ -3,14 +3,14 @@ import 'package:zrd_despesas_app/auth/auth_service.dart';
 import 'package:zrd_despesas_app/models/model_despesa.dart';
 import 'package:zrd_despesas_app/pages/despesas/hooks_despesa.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class MinhasDespesas extends StatefulWidget {
+  const MinhasDespesas({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ProfilePageState();
+  State<StatefulWidget> createState() => _MinhasDespesasState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _MinhasDespesasState extends State<MinhasDespesas> {
   final authservice = AuthService();
   final dtoDespesa = Despesa();
   late Future<List<ModelDespesa>> _futureDespesas;
@@ -19,10 +19,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _futureDespesas = dtoDespesa.get();
-  }
-
-  void logout() async {
-    await authservice.logout();
   }
 
   void recarregarDespesas() {
@@ -49,14 +45,6 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text("DESPESAS", style: TextStyle(fontSize: 18)),
         backgroundColor: Colors.blueGrey,
         titleTextStyle: TextStyle(color: Colors.white),
-        actions: [
-          Text("SAIR ->"),
-
-          IconButton(
-            onPressed: logout,
-            icon: Icon(Icons.logout, color: Colors.black),
-          ),
-        ],
       ),
       body: FutureBuilder<List<ModelDespesa>>(
         future: _futureDespesas,

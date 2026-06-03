@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:zrd_despesas_app/auth/auth_service.dart';
+import 'package:zrd_despesas_app/pages/despesas/insert/emitir_despesa.dart';
+import 'package:zrd_despesas_app/pages/profile_page.dart';
 
 class CardPage extends StatelessWidget {
   final String cardName;
+  final VoidCallback onTap;
 
-  const CardPage({super.key, required this.cardName});
+  const CardPage({super.key, required this.cardName, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +20,7 @@ class CardPage extends StatelessWidget {
       elevation: 1,
       clipBehavior: .hardEdge,
       child: InkWell(
-        // splashColor: Colors.black,
-        onTap: () {
-          debugPrint('Card tapped.');
-        },
+        onTap: onTap,
         child: SizedBox(
           width: 300,
           height: 100,
@@ -44,28 +44,28 @@ class CardPage extends StatelessWidget {
 }
 
 class InicialPage extends StatelessWidget {
-  // const InicialPage({super.key});
-
   final authservice = AuthService();
 
   InicialPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<String> dados = ["EMITIR DESPESA", "DESPESAS", "TESTES DEV_"];
-
     void logout() async {
       await authservice.logout();
     }
 
+    final telas = [
+      (titulo: 'EMITIR DESPESA', pagina: const EmitirDespesa()),
+      (titulo: 'MINHAS DESPESAS', pagina: const MinhasDespesas()),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Text("SAIR ->"),
-
+          // Text("SAIR ->", style: TextStyle(color: Colors.white)),
           IconButton(
             onPressed: logout,
-            icon: Icon(Icons.logout, color: Colors.black),
+            icon: Icon(Icons.logout, color: Colors.white),
           ),
         ],
         title: Text("HOME", style: TextStyle(color: Colors.white)),
@@ -74,7 +74,18 @@ class InicialPage extends StatelessWidget {
       body: Center(
         child: ListView(
           shrinkWrap: true,
-          children: [for (var dado in dados) CardPage(cardName: dado)],
+          children: [
+            for (final card in telas)
+              CardPage(
+                cardName: card.titulo,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => card.pagina),
+                  );
+                },
+              ),
+          ],
         ),
       ),
     );
