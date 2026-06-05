@@ -7,7 +7,7 @@ Aplicativo Flutter para controle de despesas pessoais com autenticacao via Supab
 ## Visao Geral
 
 Projeto focado em:
-
+- usabilidade voltada para celular
 - cadastro e login de usuarios
 - emissao de despesas
 - listagem de despesas do usuario logado
