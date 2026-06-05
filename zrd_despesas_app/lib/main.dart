@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/auth/auth_gate.dart';
 
+///// versao beta
 Future<void> main() async {
   await Supabase.initialize(
     url: 'https://cwxqwmmjgjngylxdjqyf.supabase.co',
@@ -11,6 +12,7 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+////
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
