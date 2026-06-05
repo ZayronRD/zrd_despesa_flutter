@@ -1,5 +1,9 @@
 # ZRD Despesas App
 
+```bash
+https://zrdespesas.reportzrd.com
+```
+
 Aplicativo Flutter para controle de despesas pessoais com autenticacao via Supabase e isolamento de dados por usuario usando Row Level Security (RLS).
 
 ## Visao Geral
@@ -119,4 +123,4 @@ Projeto em evolucao, com foco atual em:
 
 ## Obs
 
-Projeto para aprendizado em flutter e dart.
+Projeto para aprendizado em flutter, dart e supabase.
