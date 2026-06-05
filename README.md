@@ -1,6 +1,6 @@
 # ZRD Despesas App Demo
 
-[Acessar aplicacao](https://zrdespesas.reportzrd.com)
+[Acessar aplicacao](https://zrdespesas)
 
 Aplicativo Flutter para controle de despesas pessoais com autenticacao via Supabase e isolamento de dados por usuario usando Row Level Security (RLS).
 
