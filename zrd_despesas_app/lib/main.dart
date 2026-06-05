@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:zrd_despesas_app/pages/emitir_despesa.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/auth/auth_gate.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/pages/inicial/inicial_page.dart';
-import 'package:zrd_despesas_app/pages/login_page.dart';
+import 'package:zrd_despesas_app/pages/login/login_page.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});

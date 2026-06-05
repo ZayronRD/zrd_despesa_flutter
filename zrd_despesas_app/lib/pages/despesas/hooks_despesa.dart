@@ -1,16 +1,9 @@
 //DTO
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:zrd_despesas_app/models/DTO.dart';
 import 'package:zrd_despesas_app/models/model_despesa.dart';
 
-abstract class DtoDespesa<T> {
-  Future<List<T>> get();
-  // Future<T?> getById(int id);
-  // Future<void> insert(T item);
-  // Future<void> update(T item);
-  // Future<void> delete(int id);
-}
-
-class Despesa extends DtoDespesa<ModelDespesa> {
+class Despesa extends DTO<ModelDespesa> {
   @override
   Future<List<ModelDespesa>> get() async {
     final data = await Supabase.instance.client
@@ -23,5 +16,31 @@ class Despesa extends DtoDespesa<ModelDespesa> {
     return (data as List)
         .map((item) => ModelDespesa.fromMap(map: item as Map<String, dynamic>))
         .toList();
+  }
+
+  @override
+  Future<void> delete(String id) {
+    // TODO: implement delete
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> insert(ModelDespesa item) async {
+    try {
+      final userId = Supabase.instance.client.auth.currentUser!.id;
+
+      await Supabase.instance.client.from('despesas').insert({
+        'descricao': item.descricao.toString(),
+        'data_despesa': item.dtemissao?.toIso8601String(),
+        'categoria_id': item.categoria,
+        'pagamento_id': item.formaPagamento,
+        'valor': item.valor,
+        'id_user': userId,
+      });
+
+      ///////
+    } on PostgrestException catch (e) {
+      throw Exception('Erro ao inserir despesa $e');
+    }
   }
 }

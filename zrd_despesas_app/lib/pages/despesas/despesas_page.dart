@@ -42,7 +42,8 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("DESPESAS", style: TextStyle(fontSize: 18)),
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text("DESPESAS", style: TextStyle(fontSize: 20)),
         backgroundColor: Colors.blueGrey,
         titleTextStyle: TextStyle(color: Colors.white),
       ),
@@ -79,9 +80,12 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
                 child: ListTile(
                   title: Text(despesa.descricao),
                   subtitle: Text(
-                    '${despesa.tipo ?? "Sem tipo"} • ${formatarData(despesa.dtemissao)}',
+                    '${despesa.categoria ?? "Sem tipo"} • ${formatarData(despesa.dtemissao)}',
                   ),
-                  trailing: Text('R\$ ${despesa.valor.toStringAsFixed(2)}'),
+                  trailing: Text(
+                    'R\$ ${despesa.valor.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
               );
             },

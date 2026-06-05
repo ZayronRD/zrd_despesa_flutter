@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/auth/auth_service.dart';
-import 'package:zrd_despesas_app/pages/register_page.dart';
+import 'package:zrd_despesas_app/pages/cadastro/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

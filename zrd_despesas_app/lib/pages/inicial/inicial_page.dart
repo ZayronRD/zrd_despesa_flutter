@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zrd_despesas_app/auth/auth_service.dart';
-import 'package:zrd_despesas_app/pages/despesas/insert/emitir_despesa.dart';
-import 'package:zrd_despesas_app/pages/profile_page.dart';
+import 'package:zrd_despesas_app/pages/configuracao/categorias/lista_page.dart';
+import 'package:zrd_despesas_app/pages/configuracao/formas_pagamento/lista_page.dart';
+import 'package:zrd_despesas_app/pages/despesas/despesas_page.dart';
+import 'package:zrd_despesas_app/pages/despesas/emitir_despesa_page.dart';
 
 class CardPage extends StatelessWidget {
   final String cardName;
@@ -57,6 +59,8 @@ class InicialPage extends StatelessWidget {
     final telas = [
       (titulo: 'EMITIR DESPESA', pagina: const EmitirDespesa()),
       (titulo: 'MINHAS DESPESAS', pagina: const MinhasDespesas()),
+      (titulo: 'CATEGORIAS', pagina: const ListaCategoriasPage()),
+      (titulo: 'FORMAS DE PAGAMENTO', pagina: const ListaFormasPagamento()),
     ];
 
     return Scaffold(
@@ -68,7 +72,7 @@ class InicialPage extends StatelessWidget {
             icon: Icon(Icons.logout, color: Colors.white),
           ),
         ],
-        title: Text("HOME", style: TextStyle(color: Colors.white)),
+        title: Text("INICIAL", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blueGrey,
       ),
       body: Center(
