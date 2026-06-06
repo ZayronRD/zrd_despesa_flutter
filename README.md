@@ -1,4 +1,4 @@
-# ZRD Despesas App Demo
+# ZR Despesas App Demo
 
 [Acessar aplicacão versão web](https://zayronrd.github.io/zrd_despesa_flutter/)
 
