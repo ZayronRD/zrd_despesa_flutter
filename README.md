@@ -1,6 +1,6 @@
 # ZRD Despesas App Demo
 
-[Acessar aplicacao](https://zayronrd.github.io/zrd_despesa_flutter/)
+[Acessar aplicacão versão web](https://zayronrd.github.io/zrd_despesa_flutter/)
 
 Aplicativo Flutter para controle de despesas pessoais com autenticacao via Supabase e isolamento de dados por usuario usando Row Level Security (RLS).
 
@@ -123,5 +123,6 @@ Projeto em evolucao, com foco atual em:
 
 - Projeto para aprendizado em flutter, dart e supabase.
 - Subi o que gerou do flutter build web para docs para hospedar no github
+- Como se trata de flutter é possivel compilar para ios/android/web etc etc...
 
 
