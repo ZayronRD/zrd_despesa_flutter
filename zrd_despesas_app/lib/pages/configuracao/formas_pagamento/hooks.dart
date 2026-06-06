@@ -35,7 +35,7 @@ class HooksFormasPagamento extends DTO<ModelFormaPagamento> {
   }
 
   @override
-  Future<void> insert(ModelFormaPagamento item) async {
+  Future<void> insert(ModelFormaPagamento item, {Object? extra}) async {
     try {
       final userId = Supabase.instance.client.auth.currentUser!.id;
 

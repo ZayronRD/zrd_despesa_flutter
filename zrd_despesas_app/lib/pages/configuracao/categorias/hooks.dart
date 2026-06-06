@@ -31,7 +31,7 @@ class HooksCategoria extends DTO<ModelCategoria> {
   }
 
   @override
-  Future<void> insert(ModelCategoria item) async {
+  Future<void> insert(ModelCategoria item, {Object? extra}) async {
     try {
       final userId = Supabase.instance.client.auth.currentUser!.id;
 

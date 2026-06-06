@@ -32,6 +32,23 @@ class ZrConfirm extends StatelessWidget {
             Expanded(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.red,
+                  // shape: const RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.zero,
+                  // ),
+                  // minimumSize: const Size.fromHeight(50),
+                ),
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text(
+                  'NÃO',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
                   // backgroundColor: Colors.green.shade700,
                   foregroundColor: Colors.green.shade700,
                   // shape: const RoundedRectangleBorder(
@@ -42,24 +59,6 @@ class ZrConfirm extends StatelessWidget {
                 onPressed: () => Navigator.pop(context, true),
                 child: const Text(
                   'SIM',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.red,
-                  // shape: const RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.zero,
-                  // ),
-                  // minimumSize: const Size.fromHeight(50),
-                ),
-                onPressed: () => Navigator.pop(context, false),
-                child: const Text(
-                  'NÃO',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
