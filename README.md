@@ -119,10 +119,19 @@ Projeto em evolucao, com foco atual em:
 - adicionar imagens ao incluir despesa para dar um melhor contexto.
 - adicionar filtros na hora de ver as despesas
 
+## Limites por Usuario
+
+O Supabase valida limites de registros por usuario antes de inserir novos dados.
+
+Limites atuais versão beta:
+
+- `categorias`: 5
+- `formas_pagamento`: 5
+- `despesas`: 5
+
 ## Obs
 
 - Projeto para aprendizado em flutter, dart e supabase.
 - Subi o que gerou do flutter build web para docs para hospedar no github
 - Como se trata de flutter é possivel compilar para ios/android/web etc etc...
-
 
