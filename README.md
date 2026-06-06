@@ -123,7 +123,7 @@ Projeto em evolucao, com foco atual em:
 
 O Supabase valida limites de registros por usuario antes de inserir novos dados.
 
-Limites atuais versão beta:
+Limites atuais para a versão beta:
 
 - `categorias`: 5
 - `formas_pagamento`: 5
