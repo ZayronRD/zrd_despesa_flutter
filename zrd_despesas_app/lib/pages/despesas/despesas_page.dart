@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/auth/auth_service.dart';
+import 'package:zrd_despesas_app/components/zr_confirm.dart';
 import 'package:zrd_despesas_app/models/model_despesa.dart';
 import 'package:zrd_despesas_app/models/model_despesa_imagem.dart';
 import 'package:zrd_despesas_app/pages/despesas/hooks_despesa.dart';
@@ -171,6 +172,38 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
     });
   }
 
+  Future<void> excluirDespesa(ModelDespesa despesa) async {
+    final id = despesa.id;
+    if (id == null) return;
+
+    final confirmou = await ZrConfirm.confirm(context);
+    if (!confirmou) return;
+
+    try {
+      await dtoDespesa.delete(id);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Despesa excluida com sucesso.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      recarregarDespesas();
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao excluir despesa: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final emailUsuario = authservice.emailUsuario();
@@ -279,18 +312,34 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
                       const SizedBox(height: 12),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: TextButton.icon(
-                          onPressed: despesa.imagens.isEmpty
-                              ? null
-                              : () => abrirImagensDespesa(despesa),
-                          icon: Icon(
-                            Icons.photo_library,
-                            color: Colors.blueGrey,
-                          ),
-                          label: Text(
-                            'Ver imagens',
-                            style: TextStyle(color: Colors.black),
-                          ),
+                        child: Wrap(
+                          spacing: 8,
+                          children: [
+                            TextButton.icon(
+                              onPressed: despesa.imagens.isEmpty
+                                  ? null
+                                  : () => abrirImagensDespesa(despesa),
+                              icon: const Icon(
+                                Icons.photo_library,
+                                color: Colors.blueGrey,
+                              ),
+                              label: const Text(
+                                'Ver imagens',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: () => excluirDespesa(despesa),
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                color: Colors.red,
+                              ),
+                              label: const Text(
+                                'Excluir',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

@@ -7,6 +7,7 @@ Aplicativo Flutter para controle de despesas pessoais com autenticacao via Supab
 ## Visao Geral
 
 Projeto focado em:
+
 - usabilidade voltada para celular
 - cadastro e login de usuarios
 - emissao de despesas
@@ -129,9 +130,13 @@ Limites atuais para a versão beta:
 - `formas_pagamento`: 5
 - `despesas`: 5
 
+## Uso de Imagens
+
+- O envio de imagens neste projeto existe para fins de estudo.
+- O Storage possui policies para restringir o acesso e evitar uso indevido entre usuarios.
+
 ## Obs
 
 - Projeto para aprendizado em flutter, dart e supabase.
 - Subi o que gerou do flutter build web para docs para hospedar no github
 - Como se trata de flutter é possivel compilar para ios/android/web etc etc...
-

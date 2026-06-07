@@ -37,9 +37,38 @@ class Despesa extends DTO<ModelDespesa> {
   }
 
   @override
-  Future<void> delete(String id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete(String id) async {
+    try {
+      final imagens =
+          await Supabase.instance.client
+              .from('despesa_imagens')
+              .select('storage_path')
+              .eq('despesa_id', id);
+
+      final storagePaths =
+          (imagens as List)
+              .map((item) => item['storage_path']?.toString())
+              .whereType<String>()
+              .where((item) => item.isNotEmpty)
+              .toList();
+
+      if (storagePaths.isNotEmpty) {
+        await Supabase.instance.client.storage
+            .from('despesa-imagens')
+            .remove(storagePaths);
+      }
+
+      await Supabase.instance.client
+          .from('despesa_imagens')
+          .delete()
+          .eq('despesa_id', id);
+
+      await Supabase.instance.client.from('despesas').delete().eq('id', id);
+    } on PostgrestException catch (e) {
+      throw Exception('Erro ao excluir despesa: ${e.message}');
+    } catch (e) {
+      throw Exception('Erro ao excluir despesa e imagens: $e');
+    }
   }
 
   @override
