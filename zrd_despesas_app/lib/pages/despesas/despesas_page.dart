@@ -148,7 +148,7 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
                         child: Image.network(
                           imagem.signedUrl!,
                           fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) {
+                          errorBuilder: (_, _, _) {
                             return Container(
                               height: 220,
                               color: Colors.black12,

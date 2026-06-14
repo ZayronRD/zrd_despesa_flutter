@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
 
       final resposta = await authService.login(email, senha);
 
-      while (resposta.user != null || resposta.session != null) {
+      if (resposta.user != null || resposta.session != null) {
         if (mounted) {
           ZrToast.success(context, "Acessando...", milliseconds: 400);
         }
