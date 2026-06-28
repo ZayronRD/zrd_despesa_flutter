@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zrd_despesas_app/components/utils/utils.dart';
+import 'package:zrd_despesas_app/components/zr_appbar.dart';
 import 'package:zrd_despesas_app/components/zr_confirm.dart';
 import 'package:zrd_despesas_app/components/zr_espaco.dart';
 import 'package:zrd_despesas_app/components/zr_input.dart';
-import 'package:zrd_despesas_app/components/zr_input_imagens_despesa.dart';
 import 'package:zrd_despesas_app/components/zr_input_number.dart';
 import 'package:zrd_despesas_app/components/zr_inputdata.dart';
 import 'package:zrd_despesas_app/components/zr_modal_categorias.dart';
@@ -11,7 +11,6 @@ import 'package:zrd_despesas_app/components/zr_modal_formas_pagamento.dart';
 import 'package:zrd_despesas_app/components/zr_toast.dart';
 import 'package:zrd_despesas_app/models/model_categoria.dart';
 import 'package:zrd_despesas_app/models/model_despesa.dart';
-import 'package:zrd_despesas_app/models/model_despesa_imagem.dart';
 import 'package:zrd_despesas_app/models/model_forma_pagamento.dart';
 import 'package:zrd_despesas_app/pages/configuracao/categorias/hooks.dart'
     show HooksCategoria;
@@ -123,7 +122,6 @@ class _EmitirDespesaState extends State<EmitirDespesa> {
   }
 
   final Despesa hookDespesa = Despesa();
-  List<ModelDespesaImagem> imagensDespesa = [];
 
   Future<void> salvar(ModelDespesa d) async {
     try {
@@ -131,7 +129,7 @@ class _EmitirDespesaState extends State<EmitirDespesa> {
         ZrToast.error(context, "Todos os campos devem ser preenchidos!");
         return;
       }
-      await hookDespesa.insert(d, extra: imagensDespesa);
+      await hookDespesa.insert(d);
 
       if (!mounted) return;
 
@@ -150,11 +148,7 @@ class _EmitirDespesaState extends State<EmitirDespesa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: Text("EMITIR DESPESA", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blueGrey,
-      ),
+      appBar: ZrAppbar(title: "EMITIR DESPESA"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -235,16 +229,13 @@ class _EmitirDespesaState extends State<EmitirDespesa> {
                   // },
                 ),
                 ZrEspaco(),
-                ZrInputImagensDespesa(
-                  imagens: imagensDespesa,
-                  onChanged: (novasImagens) {
-                    setState(() {
-                      imagensDespesa = novasImagens;
-                    });
-                  },
-                ),
+
                 ZrEspaco(),
                 TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.grey.shade300,
+                  ),
                   onPressed: () async {
                     final confirmou = await ZrConfirm.confirm(context);
 
@@ -252,7 +243,7 @@ class _EmitirDespesaState extends State<EmitirDespesa> {
                       salvar(despesa);
                     }
                   },
-                  child: Text("Incluir Despesa"),
+                  child: Text("INCLUIR DESPESA"),
                 ),
                 ZrEspaco(),
 

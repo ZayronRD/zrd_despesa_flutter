@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zrd_despesas_app/components/zr_appbar.dart';
 import 'package:zrd_despesas_app/models/model_forma_pagamento.dart';
 
 class ZrModalFormasPagamento extends StatelessWidget {
@@ -38,11 +39,7 @@ class ZrModalFormasPagamento extends StatelessWidget {
             return SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Scaffold(
-                appBar: AppBar(
-                  title: Text("FORMAS DE PAGAMENTO"),
-                  backgroundColor: Colors.blueGrey,
-                  foregroundColor: Colors.white,
-                ),
+                appBar: ZrAppbar(title: "FORMAS DE PAGAMENTO"),
                 body: opcoes.isEmpty
                     ? const Center(
                         child: Text(

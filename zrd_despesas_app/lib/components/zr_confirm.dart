@@ -15,28 +15,17 @@ class ZrConfirm extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const BeveledRectangleBorder(borderRadius: BorderRadius.zero),
-      title: const Center(
-        // child: Text(
-        //   'CONFIRMAR?',
-        //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        // ),
-      ),
-      content: const Text(
-        'Deseja realmente continuar?',
-        textAlign: TextAlign.center,
-      ),
+      title: const Center(),
+      content: const Text('Confirmação', textAlign: TextAlign.center),
       actionsPadding: const EdgeInsets.all(16),
       actions: [
         Row(
           children: [
             Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
+              child: TextButton(
+                style: TextButton.styleFrom(
                   foregroundColor: Colors.red,
-                  // shape: const RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.zero,
-                  // ),
-                  // minimumSize: const Size.fromHeight(50),
+                  backgroundColor: Colors.grey.shade300,
                 ),
                 onPressed: () => Navigator.pop(context, false),
                 child: const Text(
@@ -47,14 +36,10 @@ class ZrConfirm extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  // backgroundColor: Colors.green.shade700,
+              child: TextButton(
+                style: TextButton.styleFrom(
                   foregroundColor: Colors.green.shade700,
-                  // shape: const RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.zero,
-                  // ),
-                  // minimumSize: const Size.fromHeight(50),
+                  backgroundColor: Colors.grey.shade300,
                 ),
                 onPressed: () => Navigator.pop(context, true),
                 child: const Text(

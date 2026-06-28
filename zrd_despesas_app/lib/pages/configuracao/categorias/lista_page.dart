@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zrd_despesas_app/components/zr_appbar.dart';
 import 'package:zrd_despesas_app/components/zr_confirm.dart';
 import 'package:zrd_despesas_app/components/zr_toast.dart';
 import 'package:zrd_despesas_app/models/model_categoria.dart';
@@ -44,10 +45,10 @@ class _ListaCategoriasPageState extends State<ListaCategoriasPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text("CATEGORIAS", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blueGrey,
+      appBar: ZrAppbar(
+        // iconTheme: IconThemeData(color: Colors.white),
+        title: "CATEGORIAS",
+        // backgroundColor: Colors.blueGrey,
         actions: [
           IconButton(
             tooltip: "NOVA CATEGORIA",

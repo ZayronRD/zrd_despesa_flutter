@@ -2,7 +2,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/models/DTO.dart';
 import 'package:zrd_despesas_app/models/model_despesa.dart';
-import 'package:zrd_despesas_app/models/model_despesa_imagem.dart';
 
 class Despesa extends DTO<ModelDespesa> {
   @override
@@ -22,12 +21,7 @@ class Despesa extends DTO<ModelDespesa> {
           ),
           valor,
           created_at,
-          descricao,
-          despesa_imagens (
-            id,
-            storage_path,
-            created_at
-          )
+          descricao
         ''')
         .order('data_despesa', ascending: false);
 
@@ -39,30 +33,6 @@ class Despesa extends DTO<ModelDespesa> {
   @override
   Future<void> delete(String id) async {
     try {
-      final imagens =
-          await Supabase.instance.client
-              .from('despesa_imagens')
-              .select('storage_path')
-              .eq('despesa_id', id);
-
-      final storagePaths =
-          (imagens as List)
-              .map((item) => item['storage_path']?.toString())
-              .whereType<String>()
-              .where((item) => item.isNotEmpty)
-              .toList();
-
-      if (storagePaths.isNotEmpty) {
-        await Supabase.instance.client.storage
-            .from('despesa-imagens')
-            .remove(storagePaths);
-      }
-
-      await Supabase.instance.client
-          .from('despesa_imagens')
-          .delete()
-          .eq('despesa_id', id);
-
       await Supabase.instance.client.from('despesas').delete().eq('id', id);
     } on PostgrestException catch (e) {
       throw Exception('Erro ao excluir despesa: ${e.message}');
@@ -73,10 +43,6 @@ class Despesa extends DTO<ModelDespesa> {
 
   @override
   Future<void> insert(ModelDespesa item, {Object? extra}) async {
-    final imagens = extra is List<ModelDespesaImagem>
-        ? extra
-        : const <ModelDespesaImagem>[];
-    final uploadedPaths = <String>[];
     dynamic despesaId;
 
     try {
@@ -96,40 +62,7 @@ class Despesa extends DTO<ModelDespesa> {
           .single();
 
       despesaId = despesaCriada['id'];
-
-      for (final imagem in imagens) {
-        final fileName = imagem.fileName;
-        final bytes = imagem.bytes;
-        final contentType = imagem.contentType;
-
-        if (fileName == null || bytes == null || contentType == null) {
-          throw Exception('Imagem da despesa sem dados suficientes para upload.');
-        }
-
-        final storagePath = '$userId/$despesaId/$fileName';
-
-        await Supabase.instance.client.storage
-            .from('despesa-imagens')
-            .uploadBinary(
-              storagePath,
-              bytes,
-              fileOptions: FileOptions(contentType: contentType),
-            );
-
-        uploadedPaths.add(storagePath);
-
-        await Supabase.instance.client.from('despesa_imagens').insert({
-          'despesa_id': despesaId,
-          'storage_path': storagePath,
-        });
-      }
     } on PostgrestException catch (e) {
-      if (uploadedPaths.isNotEmpty) {
-        await Supabase.instance.client.storage
-            .from('despesa-imagens')
-            .remove(uploadedPaths);
-      }
-
       if (despesaId != null) {
         await Supabase.instance.client
             .from('despesas')
@@ -139,12 +72,6 @@ class Despesa extends DTO<ModelDespesa> {
 
       throw Exception('Erro ao inserir despesa $e');
     } catch (e) {
-      if (uploadedPaths.isNotEmpty) {
-        await Supabase.instance.client.storage
-            .from('despesa-imagens')
-            .remove(uploadedPaths);
-      }
-
       if (despesaId != null) {
         await Supabase.instance.client
             .from('despesas')
@@ -152,7 +79,7 @@ class Despesa extends DTO<ModelDespesa> {
             .eq('id', despesaId);
       }
 
-      throw Exception('Erro ao salvar despesa e imagens: $e');
+      throw Exception('Erro ao salvar despesa $e');
     }
   }
 }

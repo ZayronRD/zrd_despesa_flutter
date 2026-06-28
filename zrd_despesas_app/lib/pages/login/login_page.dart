@@ -5,6 +5,8 @@ import 'package:zrd_despesas_app/components/zr_input.dart';
 import 'package:zrd_despesas_app/components/zr_toast.dart';
 import 'package:zrd_despesas_app/pages/cadastro/register_page.dart';
 
+import '../../components/zr_appbar.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -22,9 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   String _mensagemErroLogin(Object erro) {
     if (erro is AuthException) {
       final mensagem = erro.message.toLowerCase();
-
-      // print("mensagem aqui $mensagem");
-
       if (mensagem.contains('invalid login credentials')) {
         return 'Email ou senha invalidos.';
       }
@@ -81,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (resposta.user != null || resposta.session != null) {
         if (mounted) {
-          ZrToast.success(context, "Acessando...", milliseconds: 400);
+          ZrToast.success(context, "Sucesso!", milliseconds: 400);
         }
       }
 
@@ -104,28 +103,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        title: Center(
-          child: SizedBox(
-            // width: 100,
-            // height: 100,
-            child: Text(
-              "LOGIN",
-              style: TextStyle(
-                // fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.white,
-                // fontStyle: FontStyle.italic,
-
-                // decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
-        backgroundColor: const Color.fromARGB(255, 75, 85, 99),
-        titleTextStyle: const TextStyle(color: Colors.white),
-      ),
+      appBar: ZrAppbar(title: "ZR DESPESAS"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -134,16 +112,17 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               margin: EdgeInsets.all(0),
               decoration: BoxDecoration(
-                border: Border.all(width: 3.0),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5.0), //
-                ),
+                // border: Border.all(width: 3.0),
+                // borderRadius: BorderRadius.all(
+                //   Radius.zero, //
+                // ),
               ),
               child: SizedBox(
-                width: 100,
-                height: 100,
-
-                child: Image.asset("assets/imagens/logozr.png"),
+                // width: 100,
+                height: 50,
+                child: Center(
+                  child: Text("Login", style: TextStyle(fontSize: 30)),
+                ),
               ),
             ),
 
@@ -161,14 +140,17 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: login,
               style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
+
               child: Container(
-                padding: EdgeInsets.all(5.0),
+                padding: EdgeInsets.all(10.0),
+
                 child: Center(
-                  child: Text("Login", style: TextStyle(color: Colors.black)),
+                  child: Text("Acessar", style: TextStyle(color: Colors.black)),
                 ),
               ),
             ),
@@ -181,12 +163,13 @@ class _LoginPageState extends State<LoginPage> {
                 MaterialPageRoute(builder: (context) => RegisterPage()),
               ),
               style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(0),
                 ),
               ),
               child: Container(
-                padding: EdgeInsets.all(5.0),
+                padding: EdgeInsets.all(10.0),
                 child: Center(
                   child: Text(
                     "Não tem uma conta? Clique Aqui",

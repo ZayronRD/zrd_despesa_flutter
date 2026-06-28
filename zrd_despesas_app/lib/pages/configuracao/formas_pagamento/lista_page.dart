@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zrd_despesas_app/components/zr_appbar.dart';
 import 'package:zrd_despesas_app/components/zr_confirm.dart';
 import 'package:zrd_despesas_app/components/zr_toast.dart';
 import 'package:zrd_despesas_app/models/model_forma_pagamento.dart';
@@ -44,13 +45,8 @@ class _ListaFormasPagamentoState extends State<ListaFormasPagamento> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        title: Text(
-          "FORMAS DE PAGAMENTO",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blueGrey,
+      appBar: ZrAppbar(
+        title: "FORMAS DE PAGAMENTO",
         actions: [
           IconButton(
             tooltip: "NOVA FORMA DE PAGAMENTO",

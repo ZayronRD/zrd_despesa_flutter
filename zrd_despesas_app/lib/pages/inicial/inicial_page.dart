@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zrd_despesas_app/auth/auth_service.dart';
+import 'package:zrd_despesas_app/components/zr_appbar.dart';
 import 'package:zrd_despesas_app/pages/configuracao/categorias/lista_page.dart';
 import 'package:zrd_despesas_app/pages/configuracao/formas_pagamento/lista_page.dart';
 import 'package:zrd_despesas_app/pages/despesas/despesas_page.dart';
@@ -64,7 +65,7 @@ class InicialPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: ZrAppbar(
         actions: [
           // Text("SAIR ->", style: TextStyle(color: Colors.white)),
           IconButton(
@@ -72,8 +73,8 @@ class InicialPage extends StatelessWidget {
             icon: Icon(Icons.logout, color: Colors.white),
           ),
         ],
-        title: Text("INICIAL", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blueGrey,
+        title: "INICIAL",
+        // backgroundColor: Colors.blueGrey,
       ),
       body: Center(
         child: ListView(

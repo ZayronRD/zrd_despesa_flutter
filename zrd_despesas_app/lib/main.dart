@@ -27,10 +27,14 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      title: 'ZRD Despesas',
+
+      title: 'ZR Despesas',
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: false, // desativado o material3
+        fontFamily: 'Roboto',
+        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.),
       ),
       home: const AuthGate(),
     );

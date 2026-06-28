@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zrd_despesas_app/auth/auth_service.dart';
+import 'package:zrd_despesas_app/components/zr_appbar.dart';
 import 'package:zrd_despesas_app/components/zr_confirm.dart';
 import 'package:zrd_despesas_app/models/model_despesa.dart';
-import 'package:zrd_despesas_app/models/model_despesa_imagem.dart';
 import 'package:zrd_despesas_app/pages/despesas/hooks_despesa.dart';
 
 class MinhasDespesas extends StatefulWidget {
@@ -18,7 +17,6 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
   final authservice = AuthService();
   final dtoDespesa = Despesa();
   late Future<List<ModelDespesa>> _futureDespesas;
-  bool _abrindoImagens = false;
   final moeda = NumberFormat.currency(
     locale: 'pt_BR',
     symbol: 'R\$',
@@ -79,99 +77,6 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
     );
   }
 
-  Future<List<ModelDespesaImagem>> gerarUrlsImagens(
-    List<ModelDespesaImagem> imagens,
-  ) async {
-    final storage = Supabase.instance.client.storage.from('despesa-imagens');
-    final imagensComUrl = <ModelDespesaImagem>[];
-
-    for (final imagem in imagens) {
-      final storagePath = imagem.storagePath;
-      if (storagePath == null || storagePath.isEmpty) continue;
-
-      try {
-        final signedUrl = await storage.createSignedUrl(storagePath, 60);
-        imagensComUrl.add(imagem.copyWith(signedUrl: signedUrl));
-      } catch (_) {}
-    }
-
-    return imagensComUrl;
-  }
-
-  Future<void> abrirImagensDespesa(ModelDespesa despesa) async {
-    if (_abrindoImagens) return;
-
-    setState(() {
-      _abrindoImagens = true;
-    });
-
-    final imagens = await gerarUrlsImagens(despesa.imagens);
-
-    if (!mounted) return;
-
-    if (imagens.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Nao foi possivel localizar as imagens desta despesa.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      setState(() {
-        _abrindoImagens = false;
-      });
-      return;
-    }
-
-    await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      builder: (context) {
-        return SizedBox(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text('Imagens da despesa ${despesa.id ?? ""}'),
-              backgroundColor: Colors.blueGrey,
-              foregroundColor: Colors.white,
-            ),
-            body: imagens.isEmpty
-                ? const Center(child: Text('Nenhuma imagem encontrada.'))
-                : ListView.separated(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: imagens.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      final imagem = imagens[index];
-
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.network(
-                          imagem.signedUrl!,
-                          fit: BoxFit.contain,
-                          errorBuilder: (_, _, _) {
-                            return Container(
-                              height: 220,
-                              color: Colors.black12,
-                              alignment: Alignment.center,
-                              child: const Text('Erro ao carregar imagem.'),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-          ),
-        );
-      },
-    );
-
-    if (!mounted) return;
-
-    setState(() {
-      _abrindoImagens = false;
-    });
-  }
-
   Future<void> excluirDespesa(ModelDespesa despesa) async {
     final id = despesa.id;
     if (id == null) return;
@@ -209,11 +114,9 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
     final emailUsuario = authservice.emailUsuario();
 
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text("DESPESAS", style: TextStyle(fontSize: 20)),
-        backgroundColor: Colors.blueGrey,
-        titleTextStyle: const TextStyle(color: Colors.white),
+      appBar: ZrAppbar(
+        title: "DESPESAS",
+
         actions: [
           IconButton(
             onPressed: recarregarDespesas,
@@ -290,10 +193,6 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
                             Icons.receipt_long_outlined,
                             despesa.formaPagamento ?? 'Sem tipo',
                           ),
-                          infoBadge(
-                            Icons.photo_library_outlined,
-                            '${despesa.imagens.length} imagens',
-                          ),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -310,36 +209,16 @@ class _MinhasDespesasState extends State<MinhasDespesas> {
                         style: const TextStyle(fontSize: 15),
                       ),
                       const SizedBox(height: 12),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Wrap(
-                          spacing: 8,
-                          children: [
-                            TextButton.icon(
-                              onPressed: despesa.imagens.isEmpty
-                                  ? null
-                                  : () => abrirImagensDespesa(despesa),
-                              icon: const Icon(
-                                Icons.photo_library,
-                                color: Colors.blueGrey,
-                              ),
-                              label: const Text(
-                                'Ver imagens',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ),
-                            TextButton.icon(
-                              onPressed: () => excluirDespesa(despesa),
-                              icon: const Icon(
-                                Icons.delete_outline,
-                                color: Colors.red,
-                              ),
-                              label: const Text(
-                                'Excluir',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            ),
-                          ],
+
+                      TextButton.icon(
+                        onPressed: () => excluirDespesa(despesa),
+                        icon: const Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                        ),
+                        label: const Text(
+                          'Excluir',
+                          style: TextStyle(color: Colors.red),
                         ),
                       ),
                     ],
