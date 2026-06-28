@@ -97,19 +97,6 @@ Para web:
 flutter run -d chrome ou edge
 ```
 
-### 3. Gerar build web
-
-```bash
-flutter build web
-```
-
-Para servir localmente a pasta usei python mesmo.
-
-```bash
-cd build/web
-python -m http.server 1234 --bind 0.0.0.0
-```
-
 ## Status
 
 Projeto em evolucao, com foco atual em:
@@ -117,23 +104,11 @@ Projeto em evolucao, com foco atual em:
 - consolidar CRUDs
 - endurecer regras de acesso no banco
 - melhorar UX das telas e validacoes
-- adicionar imagens ao incluir despesa para dar um melhor contexto.
 - adicionar filtros na hora de ver as despesas
 
 ## Limites por Usuario
 
 O Supabase valida limites de registros por usuario antes de inserir novos dados.
-
-Limites atuais para a versão beta:
-
-- `categorias`: 5
-- `formas_pagamento`: 5
-- `despesas`: 5
-
-## Uso de Imagens
-
-- O envio de imagens neste projeto existe para fins de estudo.
-- O Storage possui policies para restringir o acesso e evitar uso indevido entre usuarios.
 
 ## Obs
 
